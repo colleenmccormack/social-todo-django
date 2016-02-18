@@ -7,9 +7,8 @@ from .forms import NameForm
 
 # Create your views here.
 
-# def index(request):
-#     template = loader.get_template('index.html')
-#     return HttpResponse("Hello, world. You're at the tasks index. There's still much go do.")
+def index(request):
+    return render(request, 'index.html')
     
 def say_whatsup(request):
     return HttpResponse("Hello, WHAT IS UP?")
@@ -32,7 +31,7 @@ def get_task(request):
 
     return render(request, 'tasks.html', {'form': form})
 
-def index(request):
+def get_name(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:

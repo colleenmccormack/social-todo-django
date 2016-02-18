@@ -1,0 +1,8 @@
+<h1>Social ToDo App</h1>
+<h2>Need to do some things? Keep track of them here!</h2>
+
+{% if user.is_authenticated %}
+	<p> Someone is logged in!! </p>
+{% else %}
+	<p> No on is logged in!! </p>
+{% end if %}

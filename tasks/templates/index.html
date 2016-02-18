@@ -1,28 +1,58 @@
 <h1>Social ToDo App</h1>
-<h2>This is our first application for CPSC 113.</h2>
+<h2>Need to do some things? Keep track of them here!</h2>
 
-<div><hr><hr></div>
+{% if user.is_authenticated %}
+  <h2>Welcome, {{user.get_username}}</h2>
+  <div>
+        <h4>Your Tasks</h4>
+        {%if tasks%}
+            <ul>
+            </ul>
+        {% else %}
+            No tasks to show!
+        {% endif %}
+    </div>
+    <hr>
+    <div>
+        <h4>Add a new task</h4>
+        <form action="/task/create" method="POST">
+            <label for="title">Task title</label>
+            <input name="title" type="text"><br>
+            <label for="description">Task Description</label>
+            <input name="description" type="text"><br>
+            Collaborators<br>
+            <input name="collaborator1" type="email"><br>
+            <input name="collaborator2" type="email"><br>
+            <input name="collaborator3" type="email"><br>
+            <input type="submit" class="create-task-submit">
+        </form>
+    </div>
 
-<div>
-    <h4> Log In: </h4>
-    <form class="login" action="/user/login" method="POST">
-        <label for="email">Email</label>
-        <input name="email" id="email" type="text"><br>
-        <label for="password">Password</label>
-        <input name="password"  id="password" type="text"><br>
-        <input type="submit"  class="log-in-submit">
-    </form>
-</div>
+{% else %}
 
-<div><hr></div>
+  <div>
+      <h4> Log In: </h4>
+      <form class="login" action="/user/login" method="POST">
+          <label for="email">Email</label>
+          <input name="email" id="email" type="text"><br>
+          <label for="password">Password</label>
+          <input name="password"  id="password" type="text"><br>
+          <input type="submit"  class="log-in-submit">
+      </form>
+  </div>
 
-<div>
-    <h4> New User? Register Here: </h4>
-    <form class="register" action="/user/register" method="POST" class="signup-form" style="display: block;">
-      <input name="fl_name" type="text" class="text-input" placeholder="first &amp; last name">
-      <input name="email" type="email" class="text-input" placeholder="email">
-      <input name="password" type="password" class="text-input" placeholder="password">
-      <input name="password_confirmation" type="password" class="text-input" placeholder="password confirmation">
-      <input class="sign-up-submit" type="submit">
-    </form>
-</div>
+  <div><hr></div>
+
+  <div>
+      <h4> New User? Register Here: </h4>
+      <form class="register" action="/user/register" method="POST" class="signup-form" style="display: block;">
+        <input name="fl_name" type="text" class="text-input" placeholder="first &amp; last name">
+        <input name="email" type="email" class="text-input" placeholder="email">
+        <input name="password" type="password" class="text-input" placeholder="password">
+        <input name="password_confirmation" type="password" class="text-input" placeholder="password confirmation">
+        <input class="sign-up-submit" type="submit">
+      </form>
+  </div>
+
+
+{% endif %}
