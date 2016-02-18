@@ -11,4 +11,3 @@ class Task(models.Model):
     description = models.CharField(max_length=5000)
     collaborators = models.ManyToManyField(User, related_name="tasks")
     completed = models.BooleanField(default=False) 
-

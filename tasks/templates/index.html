@@ -1,0 +1,28 @@
+<h1>Social ToDo App</h1>
+<h2>This is our first application for CPSC 113.</h2>
+
+<div><hr><hr></div>
+
+<div>
+    <h4> Log In: </h4>
+    <form class="login" action="/user/login" method="POST">
+        <label for="email">Email</label>
+        <input name="email" id="email" type="text"><br>
+        <label for="password">Password</label>
+        <input name="password"  id="password" type="text"><br>
+        <input type="submit"  class="log-in-submit">
+    </form>
+</div>
+
+<div><hr></div>
+
+<div>
+    <h4> New User? Register Here: </h4>
+    <form class="register" action="/user/register" method="POST" class="signup-form" style="display: block;">
+      <input name="fl_name" type="text" class="text-input" placeholder="first &amp; last name">
+      <input name="email" type="email" class="text-input" placeholder="email">
+      <input name="password" type="password" class="text-input" placeholder="password">
+      <input name="password_confirmation" type="password" class="text-input" placeholder="password confirmation">
+      <input class="sign-up-submit" type="submit">
+    </form>
+</div>
