@@ -19,7 +19,7 @@ def todo_login(request):
         	if user.is_active:
         		login(request, user)
         		# return render(request, 'index.html')
-        		return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'tasks/')
+        		return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'task/')
         else:
 		    # figure out how to make this the home url
 		    return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
