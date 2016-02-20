@@ -1,15 +1,24 @@
 <h1>Social ToDo App</h1>
 <h2>Need to do some things? Keep track of them here!</h2>
 
+{% if errors %}
+<div style="color:red" class="validation-error">
+    {{errors}}
+</div>
+{% endif %}
+
 {% if user.is_authenticated %}
-  <h2>Welcome, {{user.get_username}}</h2>
+  <h2>Welcome, {{user.first_name}}</h2>
   <div>
         <h4>Your Tasks</h4>
-        {%if tasks%}
+        {% if task_list %}
             <ul>
+            {% for task in task_list %}
+                <p>Task Title: {{ task.title }}</p>
+            {% endfor %}
             </ul>
         {% else %}
-            No tasks to show!
+            <p>No tasks to show!</p>
         {% endif %}
     </div>
     <hr>
@@ -36,8 +45,9 @@
           <label for="email">Email</label>
           <input name="email" id="email" type="text"><br>
           <label for="password">Password</label>
-          <input name="password"  id="password" type="text"><br>
+          <input name="password"  id="password" type="password"><br>
           <input type="submit"  class="log-in-submit">
+          {% csrf_token %}
       </form>
   </div>
 
@@ -51,6 +61,7 @@
         <input name="password" type="password" class="text-input" placeholder="password">
         <input name="password_confirmation" type="password" class="text-input" placeholder="password confirmation">
         <input class="sign-up-submit" type="submit">
+        {% csrf_token %}
       </form>
   </div>
 
