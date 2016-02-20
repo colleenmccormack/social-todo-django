@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
-
+from django.http import HttpResponseRedirect
 
 def index(request):
     return render(request, 'index.html')
@@ -17,14 +18,18 @@ def todo_login(request):
         if user is not None:
         	if user.is_active:
         		login(request, user)
-        		return render(request, 'index.html')
+        		# return render(request, 'index.html')
+        		return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'tasks/')
         else:
-        	return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
+		    # figure out how to make this the home url
+		    return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
 
-        return render(request, 'index.html')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def logout(request):
-    pass
+def todo_logout(request):
+    logout(request)
+    # gotta be a better way to do this
+    return HttpResponseRedirect('http://127.0.0.1:8000/')
 
 def register(request):
     if request.method == 'POST':
@@ -37,8 +42,8 @@ def register(request):
         if user is not None:
         	if user.is_active:
         		login(request, user)
-        		return render(request, 'index.html')
+        		return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'tasks/')
         else:
         	return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
         print user
-    return render(request, 'index.html')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

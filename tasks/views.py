@@ -7,6 +7,6 @@ from .models import Task
 
 # Create your views here.
 
-def index(request):
+def tasks(request):
     task_list = Task.objects.all()
     return render(request, 'index.html', { 'task_list': task_list })

@@ -9,13 +9,27 @@
 
 {% if user.is_authenticated %}
   <h2>Welcome, {{user.first_name}}</h2>
+  Not {{user.first_name}}? <a href="user/logout">Logout here!</a>
   <div>
         <h4>Your Tasks</h4>
         {% if task_list %}
             <ul>
+             
+
             {% for task in task_list %}
-                <p>Task Title: {{ task.title }}</p>
+              <li class="tasks-list-item">
+                <span class="task-title">{{task.title}}</span>
+                <p style="margin-left: 40px">{{task.description}} </p>
+                  <form action = "/task/delete/this._id" method="post">
+                  <input type="submit" name="delete-task" class="delete-task" value="Delete">
+                  </form>
+                <form action = "/task/complete/this._id" method="post">
+                  <input type="submit" name="toggle-task" class="toggle-task" value="Mark Completion">
+                </form>
+              </li>
             {% endfor %}
+
+
             </ul>
         {% else %}
             <p>No tasks to show!</p>
@@ -64,6 +78,5 @@
         {% csrf_token %}
       </form>
   </div>
-
 
 {% endif %}
