@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^user/register', views.register, name='register'),
     url(r'^user/login', views.todo_login, name='login'),
-    url(r'^tasks/user/logout', views.todo_logout, name='logout'),
+    url(r'^task/user/logout', views.todo_logout, name='logout'),
 ]
 
