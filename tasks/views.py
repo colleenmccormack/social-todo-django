@@ -11,12 +11,18 @@ def tasks(request):
     owned = Task.objects.filter(owner = request.user)
     collaborating = Task.objects.filter(collaborators__username = current_username)
     task_list = list(chain(owned, collaborating))
+    for task in task_list:
+    	if task.owner == request.user:
+    		task.isOwnedByCurrentUser = True
+    	else:
+			task.isOwnedByCurrentUser = False
     return render(request, 'index.html', { 'task_list': task_list })
 
 def delete(request, task_id="1"):
 	current_task = Task.objects.get(id = task_id)
 	current_task.delete()
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	return render(request, 'index.html', { 'isOwner': isOwner })
+	# return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def complete(request, task_id="1"):
 	current_task = Task.objects.get(id = task_id)

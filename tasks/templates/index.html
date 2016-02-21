@@ -21,10 +21,12 @@
                 <li class="tasks-list-item complete-task">
                   <span class="task-title"><strike>{{task.title}}</strike></span>
                   <p style="margin-left: 40px"><strike>{{task.description}}</strike></p>
-                    <form action = "/task/delete/{{task.id}}" method="post">
-                    <input type="submit" name="delete-task" class="delete-task" value="Delete">
-                    {% csrf_token %} 
-                    </form>
+                    {% if task.isOwnedByCurrentUser %}
+                      <form action = "/task/delete/{{task.id}}" method="post">
+                      <input type="submit" name="delete-task" class="delete-task" value="Delete">
+                      {% csrf_token %} 
+                      </form>
+                    {% endif %}
                   <form action = "/task/complete/{{task.id}}" method="post">
                     <input type="submit" name="toggle-task" class="toggle-task" value="Mark Completion">
                     {% csrf_token %} 
@@ -36,10 +38,12 @@
                 <li class="tasks-list-item">
                   <span class="task-title">{{task.title}}</span>
                   <p style="margin-left: 40px">{{task.description}} </p>
-                    <form action = "/task/delete/{{task.id}}" method="post">
-                    <input type="submit" name="delete-task" class="delete-task" value="Delete">
-                    {% csrf_token %} 
-                    </form>
+                    {% if task.isOwnedByCurrentUser %}
+                      <form action = "/task/delete/{{task.id}}" method="post">
+                      <input type="submit" name="delete-task" class="delete-task" value="Delete">
+                      {% csrf_token %} 
+                      </form>
+                    {% endif %}
                   <form action = "/task/complete/{{task.id}}" method="post">
                     <input type="submit" name="toggle-task" class="toggle-task" value="Mark Completion">
                     {% csrf_token %} 
