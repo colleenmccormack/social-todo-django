@@ -1,18 +1,17 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from django.shortcuts import render_to_response
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
-
 from .models import Task
-
-# Create your views here.
+from itertools import chain
 
 def tasks(request):
-    task_list = Task.objects.filter(owner = request.user).filter(collaborators__id = request.user)
+    current_username = request.user.username
+    print current_username
+    owned = Task.objects.filter(owner = request.user)
+    collaborating = Task.objects.filter(collaborators__username = current_username)
+    task_list = list(chain(owned, collaborating))
     return render(request, 'index.html', { 'task_list': task_list })
 
 def create(request):
@@ -42,11 +41,11 @@ def create(request):
 			if User.objects.filter(username=c2).exists():
 				task.collaborators.add(User.objects.get(username = c2))
 			else:
-				return render(request, 'index.html', {'errors': "You added a collaborator (" + c1 + ") that does not exist"})
+				return render(request, 'index.html', {'errors': "You added a collaborator (" + c2 + ") that does not exist"})
 		if c3:
 			if User.objects.filter(username=c3).exists():
 				task.collaborators.add(User.objects.get(username = c3))
 			else:
-				return render(request, 'index.html', {'errors': "You added a collaborator (" + c1 + ") that does not exist"})
+				return render(request, 'index.html', {'errors': "You added a collaborator (" + c3 + ") that does not exist"})
 
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

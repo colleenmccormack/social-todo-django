@@ -1,10 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
 
 def index(request):
 	if request.user.is_authenticated():
@@ -45,7 +43,7 @@ def register(request):
         if user is not None:
         	if user.is_active:
         		login(request, user)
-        		return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'tasks/')
+        		return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'task/')
         else:
         	return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
         print user

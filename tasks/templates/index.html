@@ -22,9 +22,11 @@
                 <p style="margin-left: 40px">{{task.description}} </p>
                   <form action = "/task/delete/this._id" method="post">
                   <input type="submit" name="delete-task" class="delete-task" value="Delete">
+                  {% csrf_token %} 
                   </form>
                 <form action = "/task/complete/this._id" method="post">
                   <input type="submit" name="toggle-task" class="toggle-task" value="Mark Completion">
+                  {% csrf_token %} 
                 </form>
               </li>
             {% endfor %}
