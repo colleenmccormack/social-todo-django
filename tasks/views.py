@@ -8,11 +8,25 @@ from itertools import chain
 
 def tasks(request):
     current_username = request.user.username
-    print current_username
     owned = Task.objects.filter(owner = request.user)
     collaborating = Task.objects.filter(collaborators__username = current_username)
     task_list = list(chain(owned, collaborating))
     return render(request, 'index.html', { 'task_list': task_list })
+
+def delete(request, task_id="1"):
+	current_task = Task.objects.get(id = task_id)
+	current_task.delete()
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def complete(request, task_id="1"):
+	current_task = Task.objects.get(id = task_id)
+	if current_task.completed:
+		current_task.completed = False
+	else:
+		current_task.completed = True
+	current_task.save()
+	print current_task.completed
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def create(request):
 	if request.method == 'POST':

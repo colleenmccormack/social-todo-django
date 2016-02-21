@@ -14,24 +14,41 @@
         <h4>Your Tasks</h4>
         {% if task_list %}
             <ul>
-             
-
             {% for task in task_list %}
-              <li class="tasks-list-item">
-                <span class="task-title">{{task.title}}</span>
-                <p style="margin-left: 40px">{{task.description}} </p>
-                  <form action = "/task/delete/this._id" method="post">
-                  <input type="submit" name="delete-task" class="delete-task" value="Delete">
-                  {% csrf_token %} 
+
+              {% if task.completed %}
+
+                <li class="tasks-list-item complete-task">
+                  <span class="task-title"><strike>{{task.title}}</strike></span>
+                  <p style="margin-left: 40px"><strike>{{task.description}}</strike></p>
+                    <form action = "/task/delete/{{task.id}}" method="post">
+                    <input type="submit" name="delete-task" class="delete-task" value="Delete">
+                    {% csrf_token %} 
+                    </form>
+                  <form action = "/task/complete/{{task.id}}" method="post">
+                    <input type="submit" name="toggle-task" class="toggle-task" value="Mark Completion">
+                    {% csrf_token %} 
                   </form>
-                <form action = "/task/complete/this._id" method="post">
-                  <input type="submit" name="toggle-task" class="toggle-task" value="Mark Completion">
-                  {% csrf_token %} 
-                </form>
-              </li>
+                </li>
+
+              {% else %}
+
+                <li class="tasks-list-item">
+                  <span class="task-title">{{task.title}}</span>
+                  <p style="margin-left: 40px">{{task.description}} </p>
+                    <form action = "/task/delete/{{task.id}}" method="post">
+                    <input type="submit" name="delete-task" class="delete-task" value="Delete">
+                    {% csrf_token %} 
+                    </form>
+                  <form action = "/task/complete/{{task.id}}" method="post">
+                    <input type="submit" name="toggle-task" class="toggle-task" value="Mark Completion">
+                    {% csrf_token %} 
+                  </form>
+                </li>
+
+              {% endif %}
+
             {% endfor %}
-
-
             </ul>
         {% else %}
             <p>No tasks to show!</p>
