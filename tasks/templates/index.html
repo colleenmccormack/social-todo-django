@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block main %}
+
 <h1>Social ToDo App</h1>
 <h2>Need to do some things? Keep track of them here!</h2>
 
@@ -9,7 +12,7 @@
 
 {% if user.is_authenticated %}
   <h2>Welcome, {{user.first_name}}</h2>
-  Not {{user.first_name}}? <a href="user/logout">Logout here!</a>
+
   <div>
         <h4>Your Tasks</h4>
         {% if task_list %}
@@ -104,3 +107,5 @@
   </div>
 
 {% endif %}
+{% endblock %}
+

@@ -27,7 +27,10 @@ def todo_login(request):
         		login(request, user)
         		return HttpResponseRedirect('/')
         else:
-            messages.add_message(request, messages.INFO, 'Username/Password Incorrect')
+            if User.objects.filter(username=email).exists():
+                messages.add_message(request, messages.INFO, 'Invalid password')
+            else:
+                messages.add_message(request, messages.INFO, 'Invalid email address')
             return HttpResponseRedirect('/')
 
         return HttpResponseRedirect('/')
@@ -43,6 +46,9 @@ def register(request):
         full_name = request.POST['fl_name']
         split_name = full_name.split()
         if User.objects.filter(username=email).exists():
+            messages.add_message(request, messages.INFO, 'Account with this email already exists!')
+            return HttpResponseRedirect('/')
+        else: 
             user = User.objects.create_user(email, email, password)
             user.first_name = split_name[0]
             user.save()
@@ -52,10 +58,7 @@ def register(request):
                     login(request, user)
                     return HttpResponseRedirect('/')
             else:
-                return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
-            print user
-        else: 
-            messages.add_message(request, messages.INFO, 'Account with that email already exists.')
-            return HttpResponseRedirect('/')
+                return HttpResponseRedirect('/')
+            
         
     return HttpResponseRedirect('/')
