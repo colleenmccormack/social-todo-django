@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import Task
 from itertools import chain
+from django.contrib import messages
+from django.contrib.messages import get_messages, add_message
 
 def tasks(request):
     current_username = request.user.username
@@ -16,12 +18,13 @@ def tasks(request):
     		task.isOwnedByCurrentUser = True
     	else:
 			task.isOwnedByCurrentUser = False
+
     return render(request, 'index.html', { 'task_list': task_list })
 
 def delete(request, task_id="1"):
 	current_task = Task.objects.get(id = task_id)
 	current_task.delete()
-	return render(request, 'index.html', { 'isOwner': isOwner })
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	# return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def complete(request, task_id="1"):
@@ -32,7 +35,7 @@ def complete(request, task_id="1"):
 		current_task.completed = True
 	current_task.save()
 	print current_task.completed
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	return HttpResponseRedirect('/')
 
 def create(request):
 	if request.method == 'POST':
@@ -44,7 +47,7 @@ def create(request):
 			print current_user.id
 		else:
 			# go back to log in page
-			return HttpResponseRedirect('http://127.0.0.1:8000/')
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 		task = Task.objects.create_task(current_user, title, description)
 

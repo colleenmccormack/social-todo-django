@@ -3,13 +3,19 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.messages import get_messages, add_message
 
 def index(request):
-	if request.user.is_authenticated():
-		url = HttpResponseRedirect('http://127.0.0.1:8000/task/')
-	else:
-		url = render(request, 'index.html')
-	return url
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/task/')
+    else:
+        storage = get_messages(request)
+        error = None
+        for message in storage:
+            error = message
+            break
+        return render(request, 'index.html', {'errors': error})
 
 def todo_login(request):
     if request.method == 'POST':
@@ -19,18 +25,16 @@ def todo_login(request):
         if user is not None:
         	if user.is_active:
         		login(request, user)
-        		# return render(request, 'index.html')
-        		return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'task/')
+        		return HttpResponseRedirect('/')
         else:
-		    # figure out how to make this the home url
-		    return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
+            messages.add_message(request, messages.INFO, 'Username/Password Incorrect')
+            return HttpResponseRedirect('/')
 
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return HttpResponseRedirect('/')
 
 def todo_logout(request):
     logout(request)
-    # gotta be a better way to do this
-    return HttpResponseRedirect('http://127.0.0.1:8000/')
+    return HttpResponseRedirect('/')
 
 def register(request):
     if request.method == 'POST':
@@ -43,8 +47,8 @@ def register(request):
         if user is not None:
         	if user.is_active:
         		login(request, user)
-        		return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'task/')
+        		return HttpResponseRedirect('/')
         else:
         	return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
         print user
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect('/')

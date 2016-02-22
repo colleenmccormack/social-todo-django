@@ -19,4 +19,3 @@ class Task(models.Model):
     isOwnedByCurrentUser = models.BooleanField(default=True)
 
     objects = TaskManager()
-
