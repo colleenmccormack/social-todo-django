@@ -59,14 +59,13 @@ def register(request):
         elif len(full_name) > 50:
             messages.add_message(request, messages.INFO, 'Name cannot be more than 50 characters')
             return HttpResponseRedirect('/')
-        split_name = full_name.split()
-        
+            
         if User.objects.filter(username=email).exists():
             messages.add_message(request, messages.INFO, 'Account with this email already exists!')
             return HttpResponseRedirect('/')
         else: 
             user = User.objects.create_user(email, email, password)
-            user.first_name = split_name[0]
+            user.first_name = full_name.split()[0]
             user.save()
             user = authenticate(username=email, password=password)
             if user is not None:

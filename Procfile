@@ -1,1 +1,1 @@
-web: gunicorn mysite.wsgi
+web: gunicorn social_todo.wsgi --log-file -

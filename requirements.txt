@@ -1,6 +1,10 @@
+beautifulsoup4==4.4.1
 dj-database-url==0.4.0
 Django==1.9.2
 gunicorn==19.4.5
-wheel==0.29.0
-whitenoise==2.0.6
-psycopg2==2.5.4
+pbr==1.8.1
+six==1.10.0
+stevedore==1.11.0
+virtualenv==14.0.6
+virtualenv-clone==0.2.6
+virtualenvwrapper==4.7.1
