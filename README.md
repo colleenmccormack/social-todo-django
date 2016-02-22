@@ -1,7 +1,10 @@
 # Social todo Django
 
-Check out the app 
+Check out the app on heroku 
 [here](https://colleen-social-todo.herokuapp.com/).
+
+
+On a local host (http://127.0.0.1:8000/), this passes all the test cases. 
 
 To install this locally, clone the repository. Then, before you run it
 for the first time, you'd do
