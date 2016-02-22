@@ -42,8 +42,17 @@ def todo_logout(request):
 def register(request):
     if request.method == 'POST':
         email = request.POST['email']
+        if not email:
+            messages.add_message(request, messages.INFO, 'Please enter an email.')
+            return HttpResponseRedirect('/')
         password = request.POST['password']
+        if not password:
+            messages.add_message(request, messages.INFO, 'Please enter a password.')
+            return HttpResponseRedirect('/')
         full_name = request.POST['fl_name']
+        if not full_name:
+            messages.add_message(request, messages.INFO, 'Please enter a name.')
+            return HttpResponseRedirect('/')
         split_name = full_name.split()
         if User.objects.filter(username=email).exists():
             messages.add_message(request, messages.INFO, 'Account with this email already exists!')
@@ -59,6 +68,6 @@ def register(request):
                     return HttpResponseRedirect('/')
             else:
                 return HttpResponseRedirect('/')
-            
+
         
     return HttpResponseRedirect('/')
