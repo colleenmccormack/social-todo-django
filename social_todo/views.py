@@ -49,11 +49,18 @@ def register(request):
         if not password:
             messages.add_message(request, messages.INFO, 'Please enter a password.')
             return HttpResponseRedirect('/')
+        elif len(password) > 50:
+            messages.add_message(request, messages.INFO, 'Password cannot be more than 50 characters')
+            return HttpResponseRedirect('/')
         full_name = request.POST['fl_name']
         if not full_name:
             messages.add_message(request, messages.INFO, 'Please enter a name.')
             return HttpResponseRedirect('/')
+        elif len(full_name) > 50:
+            messages.add_message(request, messages.INFO, 'Name cannot be more than 50 characters')
+            return HttpResponseRedirect('/')
         split_name = full_name.split()
+        
         if User.objects.filter(username=email).exists():
             messages.add_message(request, messages.INFO, 'Account with this email already exists!')
             return HttpResponseRedirect('/')
