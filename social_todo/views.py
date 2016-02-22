@@ -40,15 +40,22 @@ def register(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
-        user = User.objects.create_user(email, email, password)
-        user.first_name = request.POST['fl_name']
-        user.save()
-        user = authenticate(username=email, password=password)
-        if user is not None:
-        	if user.is_active:
-        		login(request, user)
-        		return HttpResponseRedirect('/')
-        else:
-        	return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
-        print user
+        full_name = request.POST['fl_name']
+        split_name = full_name.split()
+        if User.objects.filter(username=email).exists():
+            user = User.objects.create_user(email, email, password)
+            user.first_name = split_name[0]
+            user.save()
+            user = authenticate(username=email, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect('/')
+            else:
+                return render(request, 'index.html', {'errors': "Username/Password Incorrect"})
+            print user
+        else: 
+            messages.add_message(request, messages.INFO, 'Account with that email already exists.')
+            return HttpResponseRedirect('/')
+        
     return HttpResponseRedirect('/')

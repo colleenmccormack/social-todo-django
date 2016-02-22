@@ -59,16 +59,16 @@ def create(request):
 			if User.objects.filter(username=c1).exists():
 				task.collaborators.add(User.objects.get(username = c1))
 			else:
-				return render(request, 'index.html', {'errors': "You added a collaborator (" + c1 + ") that does not exist"})
+				return HttpResponseRedirect('/')
 		if c2:
 			if User.objects.filter(username=c2).exists():
 				task.collaborators.add(User.objects.get(username = c2))
 			else:
-				return render(request, 'index.html', {'errors': "You added a collaborator (" + c2 + ") that does not exist"})
+				return HttpResponseRedirect('/')
 		if c3:
 			if User.objects.filter(username=c3).exists():
 				task.collaborators.add(User.objects.get(username = c3))
 			else:
-				return render(request, 'index.html', {'errors': "You added a collaborator (" + c3 + ") that does not exist"})
+				return HttpResponseRedirect('/')
 
 	return HttpResponseRedirect('/')
