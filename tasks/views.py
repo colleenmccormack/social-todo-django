@@ -24,7 +24,7 @@ def tasks(request):
 def delete(request, task_id="1"):
 	current_task = Task.objects.get(id = task_id)
 	current_task.delete()
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	return HttpResponseRedirect('/')
 	# return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def complete(request, task_id="1"):
@@ -47,7 +47,7 @@ def create(request):
 			print current_user.id
 		else:
 			# go back to log in page
-			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+			return HttpResponseRedirect('/')
 
 		task = Task.objects.create_task(current_user, title, description)
 
@@ -71,4 +71,4 @@ def create(request):
 			else:
 				return render(request, 'index.html', {'errors': "You added a collaborator (" + c3 + ") that does not exist"})
 
-	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	return HttpResponseRedirect('/')
